@@ -114,81 +114,89 @@ class PendingPage extends StatelessWidget {
                       itemCount: state.model.todos.length,
                       itemBuilder: (BuildContext context, int index) {
                         return state.model.todos[index].type == false
-                            ? Slidable(
-                                key: UniqueKey(),
-                                child: CheckboxListTile(
-                                  key: UniqueKey(),
-                                  title: Text(state.model.todos[index].title),
-                                  onChanged: (value) {
-                                    context.read<general_bloc.ToDoBloc>().add(
-                                          general_bloc.ChangeState(
-                                              state.model.todos[index].id,
-                                              value!),
-                                        );
-                                  },
-                                  value: state.model.todos[index].type,
-                                ),
-                                startActionPane: ActionPane(
-                                  key: UniqueKey(),
-                                  motion: const ScrollMotion(),
-                                  dismissible: DismissiblePane(
+                            ? Column(
+                              children: [
+                                Slidable(
+                                    key: UniqueKey(),
+                                    child: CheckboxListTile(
                                       key: UniqueKey(),
-                                      onDismissed: () {
-                                        context
-                                            .read<general_bloc.ToDoBloc>()
-                                            .add(
-                                                general_bloc.DeletingAToDoEvent(
-                                                    state.model.todos[index]
-                                                        .id));
-                                      }),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (e) {
-                                        context
-                                            .read<general_bloc.ToDoBloc>()
-                                            .add(
-                                                general_bloc.DeletingAToDoEvent(
-                                                    state.model.todos[index]
-                                                        .id));
+                                      title: Text(state.model.todos[index].title),
+                                      onChanged: (value) {
+                                        context.read<general_bloc.ToDoBloc>().add(
+                                              general_bloc.ChangeState(
+                                                  state.model.todos[index].id,
+                                                  value!),
+                                            );
                                       },
-                                      backgroundColor: const Color(0xFFFE4A49),
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.delete,
-                                      label: 'Delete',
+                                      value: state.model.todos[index].type,
                                     ),
-                                    SlidableAction(
-                                      onPressed: (e) {
-                                        Platform.isIOS
-                                            ? CupertinoScaffold
-                                                .showCupertinoModalBottomSheet(
-                                                context: context,
-                                                builder: (context) => EditToDo(
-                                                  idToEdit: state
-                                                      .model.todos[index].id,
-                                                ),
-                                              )
-                                            : showMaterialModalBottomSheet(
-                                                context: context,
-                                                builder: (context) =>
-                                                    SingleChildScrollView(
-                                                  controller:
-                                                      ModalScrollController.of(
-                                                          context),
-                                                  child: EditToDo(
-                                                    idToEdit: state
-                                                        .model.todos[index].id,
-                                                  ),
-                                                ),
-                                              );
-                                      },
-                                      backgroundColor: const Color(0xFF21B7CA),
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.edit,
-                                      label: 'Edit',
+                                    startActionPane: ActionPane(
+                                      key: UniqueKey(),
+                                      motion: const ScrollMotion(),
+                                      dismissible: DismissiblePane(
+                                          key: UniqueKey(),
+                                          onDismissed: () {
+                                            context
+                                                .read<general_bloc.ToDoBloc>()
+                                                .add(
+                                                    general_bloc.DeletingAToDoEvent(
+                                                        state.model.todos[index]
+                                                            .id));
+                                          }),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (e) {
+                                            context
+                                                .read<general_bloc.ToDoBloc>()
+                                                .add(
+                                                    general_bloc.DeletingAToDoEvent(
+                                                        state.model.todos[index]
+                                                            .id));
+                                          },
+                                          backgroundColor: const Color(0xFFFE4A49),
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.delete,
+                                          label: 'Delete',
+                                        ),
+                                        SlidableAction(
+                                          onPressed: (e) {
+                                            Platform.isIOS
+                                                ? CupertinoScaffold
+                                                    .showCupertinoModalBottomSheet(
+                                                    context: context,
+                                                    builder: (context) => EditToDo(
+                                                      idToEdit: state
+                                                          .model.todos[index].id,
+                                                    ),
+                                                  )
+                                                : showMaterialModalBottomSheet(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        SingleChildScrollView(
+                                                      controller:
+                                                          ModalScrollController.of(
+                                                              context),
+                                                      child: EditToDo(
+                                                        idToEdit: state
+                                                            .model.todos[index].id,
+                                                      ),
+                                                    ),
+                                                  );
+                                          },
+                                          backgroundColor: const Color(0xFF21B7CA),
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.edit,
+                                          label: 'Edit',
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              )
+                                  ),
+
+                                  state.model.todos.length - 1 == index
+                                      ? SizedBox(height: blockSizeVertical * 5)
+                                      : SizedBox(height: blockSizeVertical * 1),
+                              ],
+                            )
                             : Container();
                       },
                     ),
