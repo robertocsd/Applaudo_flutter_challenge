@@ -17,10 +17,11 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
     on<ChangingTitle>(_changingTitle);
     on<DeletingAToDoEvent>(_completingAToDo);
     on<EditAToDoEvent>(_editAToDo);
+    on<ConvertToCompletedEvent>(_convertToCompleted);
   }
 
   _newTodoEvent(NewTodoEvent event, Emitter<ToDoState> emit) {
-    List<ToDoModel> todos = state.model.todos ?? [];
+    List<ToDoModel> todos = state.model.todos;
 
     todos.add(ToDoModel(
         title: state.model.title!,
@@ -28,20 +29,16 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
         type: false));
 
     emit(MenuChangedState(state.model.copyWith(todos: todos, pageSelected: 0)));
-    print(state.model.todos.toString());
   }
 
   _changingTitle(ChangingTitle event, Emitter<ToDoState> emit) {
-    print(state.model.pageSelected);
 
-    print(state.model.todos.toString());
     emit(TitleChanged(
         state.model.copyWith(title: event.title, pageSelected: 0)));
-    print(state.model.title.toString());
   }
 
   _completingAToDo(DeletingAToDoEvent event, Emitter<ToDoState> emit) {
-    List<ToDoModel> todos = state.model.todos ?? [];
+    List<ToDoModel> todos = state.model.todos;
     todos.removeWhere((todo) => todo.id == event.id);
     emit(MenuChangedState(state.model.copyWith(todos: todos, pageSelected: 0)));
 
@@ -50,9 +47,21 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
 
    _editAToDo(EditAToDoEvent event, Emitter<ToDoState> emit) {
 
-    List<ToDoModel> todos = state.model.todos ?? [];
+//we have a lower cost in Dart elements when the BlocBuilder renders again
+    List<ToDoModel> todos = state.model.todos;
     ToDoModel todo = todos.firstWhere((todo) => todo.id == event.id);
     todo.title = event.title;
+    todos[todos.indexWhere((element) => element.id == todo.id)] = todo;
+    emit(DeletedState(state.model.copyWith(todos: todos, pageSelected: 0)));
+
+  }
+
+   _convertToCompleted(ConvertToCompletedEvent event, Emitter<ToDoState> emit) {
+
+//we have a lower cost in Dart elements when the BlocBuilder renders again
+    List<ToDoModel> todos = state.model.todos;
+    ToDoModel todo = todos.firstWhere((todo) => todo.id == event.id);
+    todo.type = true;
     todos[todos.indexWhere((element) => element.id == todo.id)] = todo;
     emit(DeletedState(state.model.copyWith(todos: todos, pageSelected: 0)));
 

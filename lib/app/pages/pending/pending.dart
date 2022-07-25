@@ -27,14 +27,10 @@ class PendingPage extends StatelessWidget {
 
   Widget _body(BuildContext context) {
     MediaQueryData _mediaQueryData;
-    double screenWidth;
     double screenHeight;
-    double blockSizeHorizontal;
     double blockSizeVertical;
     _mediaQueryData = MediaQuery.of(context);
-    screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;
-    blockSizeHorizontal = screenWidth / 100;
     blockSizeVertical = screenHeight / 100;
     return Scaffold(
       body: Column(children: <Widget>[
@@ -46,7 +42,7 @@ class PendingPage extends StatelessWidget {
               'Pending',
               style: TextStyle(
                 fontFamily: 'Inter',
-                color: Color(0xff272727),
+                color: const Color(0xff272727),
                 fontSize: blockSizeVertical * 5,
                 fontWeight: FontWeight.w700,
                 fontStyle: FontStyle.normal,

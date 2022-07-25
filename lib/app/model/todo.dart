@@ -15,7 +15,7 @@ class ToDoModel {
 
   final int id;
   String title;
-  final bool type;
+  bool type;
 
   factory ToDoModel.fromJson(String str) => ToDoModel.fromMap(json.decode(str));
 

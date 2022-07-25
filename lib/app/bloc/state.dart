@@ -26,6 +26,10 @@ class DeletedState extends ToDoState {
   const DeletedState(Model model) : super(model);
 }
 
+class ConvertToCompletedState extends ToDoState {
+  const ConvertToCompletedState(Model model) : super(model);
+}
+
 class Model extends Equatable {
   final int? pageSelected;
   List<ToDoModel> todos = [];
