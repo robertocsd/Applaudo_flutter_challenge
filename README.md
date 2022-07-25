@@ -1,16 +1,14 @@
 # applaudo_tech_challenge_flutter
 
-A new Flutter project.
+This challenge is to show seniority and skills in the mobile framework FLUTTER
 
-## Getting Started
+It's a To-Do App that implements two screen where you're gonna play with this to-dos, yo will edit, delete, and complete this tasks.![Screen Shot 2022-07-25 at 3 00 29 PM](https://user-images.githubusercontent.com/43767834/180873219-e1799537-1e00-48c5-bacc-3ce3e4d7190a.png)
+![Screen Shot 2022-07-25 at 3 00 41 PM](https://user-images.githubusercontent.com/43767834/180873251-a978c770-5ab5-4046-92e4-a7fac7de6772.png)
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+https://user-images.githubusercontent.com/43767834/180873573-8f977c6f-00f0-4000-ad66-e63c989de873.mov
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+If you'd like more info about me and my projects here's my Linkedin
+https://www.linkedin.com/in/roberto-salmer%C3%B3n-285137199/
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+And hope to hear from you soon!
