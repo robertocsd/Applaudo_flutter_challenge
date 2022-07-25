@@ -31,8 +31,9 @@ class CreateToDo extends StatelessWidget {
         child: BlocBuilder<general_bloc.ToDoBloc, general_bloc.ToDoState>(
           builder: (context, state) {
             return SizedBox(
-              height: blockSizeVertical * 40,
+              height: blockSizeVertical * 70,
               child: Scaffold(
+                resizeToAvoidBottomInset: true,
                 body: Column(
                   children: [
                     Container(

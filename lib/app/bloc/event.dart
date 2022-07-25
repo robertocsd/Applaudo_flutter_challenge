@@ -50,6 +50,5 @@ class MarkAllCompletedEvent extends ToDoEvent {
 }
 
 class DeletingThisEvent extends ToDoEvent {
-
   const DeletingThisEvent();
 }

@@ -37,6 +37,7 @@ class PendingPage extends StatelessWidget {
     screenHeight = _mediaQueryData.size.height;
     blockSizeVertical = screenHeight / 100;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Column(children: <Widget>[
         Container(
           padding: const EdgeInsets.only(top: 30, left: 16),
@@ -68,11 +69,12 @@ class PendingPage extends StatelessWidget {
                         'Mask all as completed',
                         style: TextStyle(fontSize: blockSizeVertical * 1.7),
                       ),
-                      onPressed: state.model.pending == 0 ? null : () {
-                        context
-                            .read<general_bloc.ToDoBloc>()
-                            .add(const general_bloc.MarkAllCompletedEvent());
-                      });
+                      onPressed: state.model.pending == 0
+                          ? null
+                          : () {
+                              context.read<general_bloc.ToDoBloc>().add(
+                                  const general_bloc.MarkAllCompletedEvent());
+                            });
                 },
               ),
               CupertinoButton(
@@ -86,9 +88,9 @@ class PendingPage extends StatelessWidget {
                             context: context,
                             builder: (context) => const CreateToDo(),
                           ).then((value) {
-                             context.read<general_bloc.ToDoBloc>().add(
-                                              const general_bloc.DeletingThisEvent(),
-                                            );
+                            context.read<general_bloc.ToDoBloc>().add(
+                                  const general_bloc.DeletingThisEvent(),
+                                );
                           })
                         : showMaterialModalBottomSheet(
                             context: context,
@@ -97,9 +99,9 @@ class PendingPage extends StatelessWidget {
                               child: const CreateToDo(),
                             ),
                           ).then((value) {
-                                 context.read<general_bloc.ToDoBloc>().add(
-                                              const general_bloc.DeletingThisEvent(),
-                                            );
+                            context.read<general_bloc.ToDoBloc>().add(
+                                  const general_bloc.DeletingThisEvent(),
+                                );
                           });
                   })
             ],
@@ -123,14 +125,17 @@ class PendingPage extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         return state.model.todos[index].type == false
                             ? Column(
-                              children: [
-                                Slidable(
+                                children: [
+                                  Slidable(
                                     key: UniqueKey(),
                                     child: CheckboxListTile(
                                       key: UniqueKey(),
-                                      title: Text(state.model.todos[index].title),
+                                      title:
+                                          Text(state.model.todos[index].title),
                                       onChanged: (value) {
-                                        context.read<general_bloc.ToDoBloc>().add(
+                                        context
+                                            .read<general_bloc.ToDoBloc>()
+                                            .add(
                                               general_bloc.ChangeState(
                                                   state.model.todos[index].id,
                                                   value!),
@@ -146,22 +151,25 @@ class PendingPage extends StatelessWidget {
                                           onDismissed: () {
                                             context
                                                 .read<general_bloc.ToDoBloc>()
-                                                .add(
-                                                    general_bloc.DeletingAToDoEvent(
-                                                        state.model.todos[index]
-                                                            .id));
+                                                .add(general_bloc
+                                                    .DeletingAToDoEvent(state
+                                                        .model
+                                                        .todos[index]
+                                                        .id));
                                           }),
                                       children: [
                                         SlidableAction(
                                           onPressed: (e) {
                                             context
                                                 .read<general_bloc.ToDoBloc>()
-                                                .add(
-                                                    general_bloc.DeletingAToDoEvent(
-                                                        state.model.todos[index]
-                                                            .id));
+                                                .add(general_bloc
+                                                    .DeletingAToDoEvent(state
+                                                        .model
+                                                        .todos[index]
+                                                        .id));
                                           },
-                                          backgroundColor: const Color(0xFFFE4A49),
+                                          backgroundColor:
+                                              const Color(0xFFFE4A49),
                                           foregroundColor: Colors.white,
                                           icon: Icons.delete,
                                           label: 'Delete',
@@ -172,34 +180,46 @@ class PendingPage extends StatelessWidget {
                                                 ? CupertinoScaffold
                                                     .showCupertinoModalBottomSheet(
                                                     context: context,
-                                                    builder: (context) => EditToDo(
-                                                      idToEdit: state
-                                                          .model.todos[index].id,
+                                                    builder: (context) =>
+                                                        EditToDo(
+                                                      idToEdit: state.model
+                                                          .todos[index].id,
                                                     ),
                                                   ).then((value) {
-                                                         context.read<general_bloc.ToDoBloc>().add(
-                                              const general_bloc.DeletingThisEvent(),
-                                            );
+                                                    context
+                                                        .read<
+                                                            general_bloc
+                                                                .ToDoBloc>()
+                                                        .add(
+                                                          const general_bloc
+                                                              .DeletingThisEvent(),
+                                                        );
                                                   })
                                                 : showMaterialModalBottomSheet(
                                                     context: context,
                                                     builder: (context) =>
                                                         SingleChildScrollView(
                                                       controller:
-                                                          ModalScrollController.of(
-                                                              context),
+                                                          ModalScrollController
+                                                              .of(context),
                                                       child: EditToDo(
-                                                        idToEdit: state
-                                                            .model.todos[index].id,
+                                                        idToEdit: state.model
+                                                            .todos[index].id,
                                                       ),
                                                     ),
                                                   ).then((value) {
-                                                         context.read<general_bloc.ToDoBloc>().add(
-                                              const general_bloc.DeletingThisEvent(),
-                                            );
+                                                    context
+                                                        .read<
+                                                            general_bloc
+                                                                .ToDoBloc>()
+                                                        .add(
+                                                          const general_bloc
+                                                              .DeletingThisEvent(),
+                                                        );
                                                   });
                                           },
-                                          backgroundColor: const Color(0xFF21B7CA),
+                                          backgroundColor:
+                                              const Color(0xFF21B7CA),
                                           foregroundColor: Colors.white,
                                           icon: Icons.edit,
                                           label: 'Edit',
@@ -207,12 +227,11 @@ class PendingPage extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-
                                   state.model.todos.length - 1 == index
                                       ? SizedBox(height: blockSizeVertical * 5)
                                       : SizedBox(height: blockSizeVertical * 1),
-                              ],
-                            )
+                                ],
+                              )
                             : Container();
                       },
                     ),

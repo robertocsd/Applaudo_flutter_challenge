@@ -11,8 +11,6 @@ import 'package:flutter_modular/flutter_modular.dart'
     hide ModularWatchExtension;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-
-
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
 
