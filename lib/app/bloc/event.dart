@@ -12,3 +12,19 @@ class OnChangePage extends ToDoEvent {
 
   const OnChangePage(this.pageSelected);
 }
+
+class NewTodoEvent extends ToDoEvent {
+  const NewTodoEvent();
+}
+
+class ChangingTitle extends ToDoEvent {
+  final String title;
+
+  const ChangingTitle(this.title);
+}
+
+class DeletingAToDoEvent extends ToDoEvent {
+  final int id;
+
+  const DeletingAToDoEvent(this.id);
+}

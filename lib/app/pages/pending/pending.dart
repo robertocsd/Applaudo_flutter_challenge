@@ -24,18 +24,28 @@ class PendingPage extends StatelessWidget {
   }
 
   Widget _body(BuildContext context) {
+    MediaQueryData _mediaQueryData;
+    double screenWidth;
+    double screenHeight;
+    double blockSizeHorizontal;
+    double blockSizeVertical;
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+    blockSizeHorizontal = screenWidth / 100;
+    blockSizeVertical = screenHeight / 100;
     return Scaffold(
       body: Column(children: <Widget>[
         Container(
           padding: const EdgeInsets.only(top: 30, left: 16),
-          child: const Align(
+          child: Align(
             alignment: Alignment.topLeft,
             child: Text(
               'Pending',
               style: TextStyle(
                 fontFamily: 'Inter',
                 color: Color(0xff272727),
-                fontSize: 30,
+                fontSize: blockSizeVertical * 5,
                 fontWeight: FontWeight.w700,
                 fontStyle: FontStyle.normal,
                 letterSpacing: -0.88,
@@ -50,12 +60,18 @@ class PendingPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               CupertinoButton(
-                  child: const Text('Mask all todos as completed'),
+                  child: Text(
+                    'Mask all as completed',
+                    style: TextStyle(fontSize: blockSizeVertical * 1.7),
+                  ),
                   onPressed: () {
                     print('SIU');
                   }),
               CupertinoButton(
-                  child: const Text('Add new todo'),
+                  child: Text(
+                    'Add new todo',
+                    style: TextStyle(fontSize: blockSizeVertical * 1.7),
+                  ),
                   onPressed: () {
                     Platform.isIOS
                         ? CupertinoScaffold.showCupertinoModalBottomSheet(
@@ -73,39 +89,65 @@ class PendingPage extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-          child: ListView(
-            children: [
-              Slidable(
-                child: const ListTile(title: Text('Slide me')),
-                key: const ValueKey(0),
-                startActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  dismissible: DismissiblePane(onDismissed: () {}),
-                  children: [
-                    SlidableAction(
-                      onPressed: (e) {
-                        print('siu');
+        BlocBuilder<general_bloc.ToDoBloc, general_bloc.ToDoState>(
+          builder: (context, state) {
+            return state.model.todos.isNotEmpty
+                ? Expanded(
+                    child: ListView.builder(
+                      itemCount: state.model.todos.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return state.model.todos[index].type == false
+                            ? Slidable(
+                                child: CheckboxListTile(
+                                  title: Text(state.model.todos[index].title),
+                                  onChanged: (value) {},
+                                  value: state.model.todos[index].type,
+                                ),
+                                key: UniqueKey(),
+                                startActionPane: ActionPane(
+                                  key: UniqueKey(),
+                                  motion: const ScrollMotion(),
+                                  dismissible: DismissiblePane(
+                                      key: UniqueKey(),
+                                      onDismissed: () {
+                                        context
+                                            .read<general_bloc.ToDoBloc>()
+                                            .add(
+                                                general_bloc.DeletingAToDoEvent(
+                                                    state.model.todos[index]
+                                                        .id));
+                                      }),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (e) {
+                                        context
+                                            .read<general_bloc.ToDoBloc>()
+                                            .add(
+                                                general_bloc.DeletingAToDoEvent(
+                                                    state.model.todos[index]
+                                                        .id));
+                                      },
+                                      backgroundColor: Color(0xFFFE4A49),
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.delete,
+                                      label: 'Delete',
+                                    ),
+                                    SlidableAction(
+                                      onPressed: (e) {},
+                                      backgroundColor: Color(0xFF21B7CA),
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.edit,
+                                      label: 'Edit',
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Container();
                       },
-                      backgroundColor: Color(0xFFFE4A49),
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete,
-                      label: 'Delete',
                     ),
-                    SlidableAction(
-                      onPressed: (e) {
-                        print('siu');
-                      },
-                      backgroundColor: Color(0xFF21B7CA),
-                      foregroundColor: Colors.white,
-                      icon: Icons.edit,
-                      label: 'Edit',
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  )
+                : Text('PUTA ESTO ESTÁ VACIO');
+          },
         )
       ]),
     );

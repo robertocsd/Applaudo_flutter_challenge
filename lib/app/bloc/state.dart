@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of 'bloc.dart';
 
 abstract class ToDoState extends Equatable {
@@ -16,20 +18,36 @@ class MenuChangedState extends ToDoState {
   const MenuChangedState(Model model) : super(model);
 }
 
+class TitleChanged extends ToDoState {
+  const TitleChanged(Model model) : super(model);
+}
+
+class DeletedState extends ToDoState {
+  const DeletedState(Model model) : super(model);
+}
+
 class Model extends Equatable {
   final int? pageSelected;
+  List<ToDoModel> todos = [];
+  final String? title;
 
-  const Model({
+  Model({
+    required this.todos,
     this.pageSelected = 0,
+    this.title = '',
   });
 
   Model copyWith({
     int? pageSelected,
+    List<ToDoModel>? todos,
+    String? title,
   }) =>
       Model(
-        pageSelected: pageSelected,
+        pageSelected: pageSelected ?? this.pageSelected,
+        todos: todos ?? this.todos,
+        title: title ?? this.title,
       );
 
   @override
-  List<Object?> get props => [pageSelected];
+  List<Object?> get props => [pageSelected, todos, title];
 }
