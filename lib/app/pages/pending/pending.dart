@@ -9,7 +9,7 @@ import 'package:applaudo_tech_challenge_flutter/app/bloc/bloc.dart'
     as general_bloc;
 import 'package:flutter_modular/flutter_modular.dart'
     hide ModularWatchExtension;
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'sections/edit.dart';
@@ -67,6 +67,7 @@ class PendingPage extends StatelessWidget {
                     style: TextStyle(fontSize: blockSizeVertical * 1.7),
                   ),
                   onPressed: () {
+                    
                     context
                         .read<general_bloc.ToDoBloc>()
                         .add(const general_bloc.MarkAllCompletedEvent());
@@ -100,6 +101,7 @@ class PendingPage extends StatelessWidget {
                     children: [
                       SizedBox(height: blockSizeVertical * 18),
                       SvgPicture.asset('assets/empty.svg',
+                      
                           color: Colors.orange, height: blockSizeVertical * 20),
                       const Text('This is empty... too empty...',
                           style: TextStyle(fontWeight: FontWeight.bold))

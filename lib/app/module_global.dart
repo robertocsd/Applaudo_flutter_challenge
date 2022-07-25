@@ -1,6 +1,6 @@
 import 'package:applaudo_tech_challenge_flutter/app/bloc/bloc.dart'
     as general_bloc;
-import 'package:applaudo_tech_challenge_flutter/app/menuController/menu.dart';
+import 'package:applaudo_tech_challenge_flutter/app/pages/menuController/menu.dart';
 import 'package:applaudo_tech_challenge_flutter/app/pages/pending/sections/create_new_todo.dart';
 import 'package:flutter_modular/flutter_modular.dart'
     hide ModularWatchExtension;

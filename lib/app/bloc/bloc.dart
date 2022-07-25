@@ -1,7 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:applaudo_tech_challenge_flutter/app/model/todo.dart';
-import 'package:applaudo_tech_challenge_flutter/app/repository.dart';
+import 'package:applaudo_tech_challenge_flutter/app/repository/repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
