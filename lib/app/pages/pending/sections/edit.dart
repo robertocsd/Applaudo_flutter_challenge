@@ -54,6 +54,8 @@ class EditToDo extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 80),
                     child: Platform.isAndroid
                         ? TextField(
+                           maxLength: 20,
+
                             onChanged: (e) {
                               context.read<general_bloc.ToDoBloc>().add(
                                     general_bloc.ChangingTitle(e),
@@ -64,6 +66,7 @@ class EditToDo extends StatelessWidget {
                             ),
                           )
                         : CupertinoTextField(
+                           maxLength: 20,
                             onChanged: (value) {
                               context.read<general_bloc.ToDoBloc>().add(
                                     general_bloc.ChangingTitle(value),
