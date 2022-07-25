@@ -41,6 +41,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_svg: ^1.1.1+1
   flutter_slidable: ^2.0.0
+  dio: ^4.0.6
 
 dev_dependencies:
   flutter_test:

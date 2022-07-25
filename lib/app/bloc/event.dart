@@ -29,16 +29,22 @@ class DeletingAToDoEvent extends ToDoEvent {
   const DeletingAToDoEvent(this.id);
 }
 
-
 class EditAToDoEvent extends ToDoEvent {
   final int id;
   final String title;
   const EditAToDoEvent(this.id, this.title);
 }
 
-class ConvertToCompletedEvent extends ToDoEvent {
-
+class ChangeState extends ToDoEvent {
   final int id;
-  const ConvertToCompletedEvent(this.id);
-  
-  }
+  final bool type;
+  const ChangeState(this.id, this.type);
+}
+
+class CheckingEmptyEvent extends ToDoEvent {
+  const CheckingEmptyEvent();
+}
+
+class MarkAllCompletedEvent extends ToDoEvent {
+  const MarkAllCompletedEvent();
+}

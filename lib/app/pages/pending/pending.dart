@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:applaudo_tech_challenge_flutter/app/pages/pending/create_new_todo.dart';
+import 'package:applaudo_tech_challenge_flutter/app/pages/pending/sections/create_new_todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,9 +9,10 @@ import 'package:applaudo_tech_challenge_flutter/app/bloc/bloc.dart'
     as general_bloc;
 import 'package:flutter_modular/flutter_modular.dart'
     hide ModularWatchExtension;
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-import 'edit.dart';
+import 'sections/edit.dart';
 
 class PendingPage extends StatelessWidget {
   const PendingPage({Key? key}) : super(key: key);
@@ -26,6 +27,9 @@ class PendingPage extends StatelessWidget {
   }
 
   Widget _body(BuildContext context) {
+    context
+        .read<general_bloc.ToDoBloc>()
+        .add(const general_bloc.CheckingEmptyEvent());
     MediaQueryData _mediaQueryData;
     double screenHeight;
     double blockSizeVertical;
@@ -63,7 +67,9 @@ class PendingPage extends StatelessWidget {
                     style: TextStyle(fontSize: blockSizeVertical * 1.7),
                   ),
                   onPressed: () {
-                    print('SIU');
+                    context
+                        .read<general_bloc.ToDoBloc>()
+                        .add(const general_bloc.MarkAllCompletedEvent());
                   }),
               CupertinoButton(
                   child: Text(
@@ -89,19 +95,35 @@ class PendingPage extends StatelessWidget {
         ),
         BlocBuilder<general_bloc.ToDoBloc, general_bloc.ToDoState>(
           builder: (context, state) {
-            return state.model.todos.isNotEmpty
-                ? Expanded(
+            return state.model.pending == 0
+                ? Column(
+                    children: [
+                      SizedBox(height: blockSizeVertical * 18),
+                      SvgPicture.asset('assets/empty.svg',
+                          color: Colors.orange, height: blockSizeVertical * 20),
+                      const Text('This is empty... too empty...',
+                          style: TextStyle(fontWeight: FontWeight.bold))
+                    ],
+                  )
+                : Expanded(
                     child: ListView.builder(
                       itemCount: state.model.todos.length,
                       itemBuilder: (BuildContext context, int index) {
                         return state.model.todos[index].type == false
                             ? Slidable(
+                                key: UniqueKey(),
                                 child: CheckboxListTile(
+                                  key: UniqueKey(),
                                   title: Text(state.model.todos[index].title),
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    context.read<general_bloc.ToDoBloc>().add(
+                                          general_bloc.ChangeState(
+                                              state.model.todos[index].id,
+                                              value!),
+                                        );
+                                  },
                                   value: state.model.todos[index].type,
                                 ),
-                                key: UniqueKey(),
                                 startActionPane: ActionPane(
                                   key: UniqueKey(),
                                   motion: const ScrollMotion(),
@@ -132,21 +154,28 @@ class PendingPage extends StatelessWidget {
                                     ),
                                     SlidableAction(
                                       onPressed: (e) {
-
-                                         Platform.isIOS
-                        ? CupertinoScaffold.showCupertinoModalBottomSheet(
-                            context: context,
-                            builder: (context) =>  EditToDo(idToEdit: state.model.todos[index].id,),
-                          )
-                        : showMaterialModalBottomSheet(
-                            context: context,
-                            builder: (context) => SingleChildScrollView(
-                              controller: ModalScrollController.of(context),
-                              child:  EditToDo(idToEdit: state.model.todos[index].id,),
-                            ),
-                          );
-                                        
-
+                                        Platform.isIOS
+                                            ? CupertinoScaffold
+                                                .showCupertinoModalBottomSheet(
+                                                context: context,
+                                                builder: (context) => EditToDo(
+                                                  idToEdit: state
+                                                      .model.todos[index].id,
+                                                ),
+                                              )
+                                            : showMaterialModalBottomSheet(
+                                                context: context,
+                                                builder: (context) =>
+                                                    SingleChildScrollView(
+                                                  controller:
+                                                      ModalScrollController.of(
+                                                          context),
+                                                  child: EditToDo(
+                                                    idToEdit: state
+                                                        .model.todos[index].id,
+                                                  ),
+                                                ),
+                                              );
                                       },
                                       backgroundColor: const Color(0xFF21B7CA),
                                       foregroundColor: Colors.white,
@@ -159,8 +188,7 @@ class PendingPage extends StatelessWidget {
                             : Container();
                       },
                     ),
-                  )
-                : Text('PUTA ESTO ESTÁ VACIO');
+                  );
           },
         )
       ]),

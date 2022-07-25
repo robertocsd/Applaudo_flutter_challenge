@@ -9,20 +9,18 @@ import 'package:flutter_modular/flutter_modular.dart'
 import 'package:applaudo_tech_challenge_flutter/app/bloc/bloc.dart'
     as general_bloc;
 
-class CreateToDo extends StatelessWidget {
-  const CreateToDo({Key? key}) : super(key: key);
+class EditToDo extends StatelessWidget {
+  final int idToEdit;
+  const EditToDo({Key? key, required this.idToEdit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     MediaQueryData _mediaQueryData;
-    double screenWidth;
     double screenHeight;
-    double blockSizeHorizontal;
     double blockSizeVertical;
     _mediaQueryData = MediaQuery.of(context);
-    screenWidth = _mediaQueryData.size.width;
     screenHeight = _mediaQueryData.size.height;
-    blockSizeHorizontal = screenWidth / 100;
+
     blockSizeVertical = screenHeight / 100;
     return BlocProvider.value(
       value: Modular.get<general_bloc.ToDoBloc>(),
@@ -38,7 +36,7 @@ class CreateToDo extends StatelessWidget {
                     child: const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Create new to-do',
+                        'Edit this to-do',
                         style: TextStyle(
                           fontFamily: 'Inter',
                           color: Color(0xff272727),
@@ -51,6 +49,7 @@ class CreateToDo extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(height: blockSizeVertical * 5),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 80),
                     child: Platform.isAndroid
@@ -60,7 +59,7 @@ class CreateToDo extends StatelessWidget {
                                     general_bloc.ChangingTitle(e),
                                   );
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Title',
                             ),
                           )
@@ -73,14 +72,18 @@ class CreateToDo extends StatelessWidget {
                             placeholder: 'ToDo',
                           ),
                   ),
+                  SizedBox(height: blockSizeVertical * 5),
                   CupertinoButton(
-                      child: Text('Create'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        context.read<general_bloc.ToDoBloc>().add(
-                              general_bloc.NewTodoEvent(),
-                            );
-                      }),
+                      child: const Text('Create'),
+                      onPressed: state.model.title == ''
+                          ? null
+                          : () {
+                              Navigator.pop(context);
+                              context.read<general_bloc.ToDoBloc>().add(
+                                    general_bloc.EditAToDoEvent(
+                                        idToEdit, state.model.title!),
+                                  );
+                            }),
                 ],
               ),
             ),

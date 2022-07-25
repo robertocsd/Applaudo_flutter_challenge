@@ -34,6 +34,7 @@ class _ToDoState extends State<Menu> {
                 NavBarCustom(
                   children: [
                     NavBarCustomChildren(
+                        title: 'Pending',
                         path: "assets/todopending.svg",
                         color: state.model.pageSelected == 0
                             ? Colors.orange
@@ -42,6 +43,7 @@ class _ToDoState extends State<Menu> {
                             .read<general_bloc.ToDoBloc>()
                             .add(const general_bloc.OnChangePage(0))),
                     NavBarCustomChildren(
+                        title: 'Completed',
                         path: "assets/completed.svg",
                         color: state.model.pageSelected == 1
                             ? Colors.orange

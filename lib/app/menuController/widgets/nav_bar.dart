@@ -44,14 +44,21 @@ class NavBarCustomChildren extends StatelessWidget {
   final Color? color;
 
   final Function()? onTap;
+
+  final String? title;
   // ignore: use_key_in_widget_constructors
-  const NavBarCustomChildren({this.path, this.color, this.onTap});
+  const NavBarCustomChildren({this.path, this.color, this.onTap, this.title});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: onTap,
-        child:
-            SvgPicture.asset(path!, color: color, width: 22.0, height: 22.0));
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(path!, color: color, width: 22.0, height: 22.0),
+            Text(title!, style: TextStyle(fontSize: 12.0, color: color))
+          ],
+        ));
   }
 }
