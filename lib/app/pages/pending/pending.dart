@@ -85,14 +85,22 @@ class PendingPage extends StatelessWidget {
                         ? CupertinoScaffold.showCupertinoModalBottomSheet(
                             context: context,
                             builder: (context) => const CreateToDo(),
-                          )
+                          ).then((value) {
+                             context.read<general_bloc.ToDoBloc>().add(
+                                              const general_bloc.DeletingThisEvent(),
+                                            );
+                          })
                         : showMaterialModalBottomSheet(
                             context: context,
                             builder: (context) => SingleChildScrollView(
                               controller: ModalScrollController.of(context),
                               child: const CreateToDo(),
                             ),
-                          );
+                          ).then((value) {
+                                 context.read<general_bloc.ToDoBloc>().add(
+                                              const general_bloc.DeletingThisEvent(),
+                                            );
+                          });
                   })
             ],
           ),
@@ -168,7 +176,7 @@ class PendingPage extends StatelessWidget {
                                                       idToEdit: state
                                                           .model.todos[index].id,
                                                     ),
-                                                  )
+                                                  ).then((value) => print('AQUO'))
                                                 : showMaterialModalBottomSheet(
                                                     context: context,
                                                     builder: (context) =>

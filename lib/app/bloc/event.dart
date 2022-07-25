@@ -48,3 +48,8 @@ class CheckingEmptyEvent extends ToDoEvent {
 class MarkAllCompletedEvent extends ToDoEvent {
   const MarkAllCompletedEvent();
 }
+
+class DeletingThisEvent extends ToDoEvent {
+
+  const DeletingThisEvent();
+}

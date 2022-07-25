@@ -25,6 +25,7 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
     on<ChangeState>(_convertToCompleted);
     on<CheckingEmptyEvent>(_checkingEmpty);
     on<MarkAllCompletedEvent>(_markAllCompleted);
+    on<DeletingThisEvent>(_deletingThisState);
 
   }
 
@@ -123,5 +124,10 @@ todos.add(ToDoModel(
     add(const CheckingEmptyEvent());
 
 
+  }
+
+   _deletingThisState(DeletingThisEvent event, Emitter<ToDoState> emit) {
+    emit(TitleChanged(
+        state.model.copyWith(title: '', pageSelected: 0)));
   }
 }
