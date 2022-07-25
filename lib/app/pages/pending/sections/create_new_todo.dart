@@ -82,7 +82,6 @@ class CreateToDo extends StatelessWidget {
                         onPressed: state.model.title == ''
                             ? null
                             : () {
-                              print('WTFFF');
                                 context.read<general_bloc.ToDoBloc>().add(
                                       const general_bloc.NewTodoEvent(),
                                     );

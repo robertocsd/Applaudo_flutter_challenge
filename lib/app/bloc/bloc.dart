@@ -1,11 +1,9 @@
 // ignore_for_file: unused_local_variable
 
-import 'dart:async';
 
 import 'package:applaudo_tech_challenge_flutter/app/model/todo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 import '../repository/repository.dart';
 
@@ -13,7 +11,7 @@ part 'event.dart';
 part 'state.dart';
 
 class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
-  ToDoBloc() : super((MenuInitial(Model(pageSelected: 0, todos: [])))) {
+  ToDoBloc() : super((MenuInitial(Model(pageSelected: 0, todos: const [])))) {
     on<OnChangePage>((event, emit) {
       emit(MenuChangedState(
           state.model.copyWith(pageSelected: event.pageSelected)));

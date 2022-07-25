@@ -176,7 +176,11 @@ class PendingPage extends StatelessWidget {
                                                       idToEdit: state
                                                           .model.todos[index].id,
                                                     ),
-                                                  ).then((value) => print('AQUO'))
+                                                  ).then((value) {
+                                                         context.read<general_bloc.ToDoBloc>().add(
+                                              const general_bloc.DeletingThisEvent(),
+                                            );
+                                                  })
                                                 : showMaterialModalBottomSheet(
                                                     context: context,
                                                     builder: (context) =>
@@ -189,7 +193,11 @@ class PendingPage extends StatelessWidget {
                                                             .model.todos[index].id,
                                                       ),
                                                     ),
-                                                  );
+                                                  ).then((value) {
+                                                         context.read<general_bloc.ToDoBloc>().add(
+                                              const general_bloc.DeletingThisEvent(),
+                                            );
+                                                  });
                                           },
                                           backgroundColor: const Color(0xFF21B7CA),
                                           foregroundColor: Colors.white,
