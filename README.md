@@ -1,4 +1,4 @@
-# applaudo_tech_challenge_flutter
+# To-Do App
 
 This challenge is to show seniority and skills in the mobile framework FLUTTER
 
