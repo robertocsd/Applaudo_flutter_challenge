@@ -16,6 +16,7 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
     on<NewTodoEvent>(_newTodoEvent);
     on<ChangingTitle>(_changingTitle);
     on<DeletingAToDoEvent>(_completingAToDo);
+    on<EditAToDoEvent>(_editAToDo);
   }
 
   _newTodoEvent(NewTodoEvent event, Emitter<ToDoState> emit) {
@@ -45,5 +46,15 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
     emit(MenuChangedState(state.model.copyWith(todos: todos, pageSelected: 0)));
 
     emit(DeletedState(state.model.copyWith(todos: todos, pageSelected: 0)));
+  }
+
+   _editAToDo(EditAToDoEvent event, Emitter<ToDoState> emit) {
+
+    List<ToDoModel> todos = state.model.todos ?? [];
+    ToDoModel todo = todos.firstWhere((todo) => todo.id == event.id);
+    todo.title = event.title;
+    todos[todos.indexWhere((element) => element.id == todo.id)] = todo;
+    emit(DeletedState(state.model.copyWith(todos: todos, pageSelected: 0)));
+
   }
 }

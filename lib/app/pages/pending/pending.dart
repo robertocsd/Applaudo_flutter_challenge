@@ -11,6 +11,8 @@ import 'package:flutter_modular/flutter_modular.dart'
     hide ModularWatchExtension;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import 'edit.dart';
+
 class PendingPage extends StatelessWidget {
   const PendingPage({Key? key}) : super(key: key);
 
@@ -82,7 +84,7 @@ class PendingPage extends StatelessWidget {
                             context: context,
                             builder: (context) => SingleChildScrollView(
                               controller: ModalScrollController.of(context),
-                              child: CreateToDo(),
+                              child: const CreateToDo(),
                             ),
                           );
                   })
@@ -127,14 +129,30 @@ class PendingPage extends StatelessWidget {
                                                     state.model.todos[index]
                                                         .id));
                                       },
-                                      backgroundColor: Color(0xFFFE4A49),
+                                      backgroundColor: const Color(0xFFFE4A49),
                                       foregroundColor: Colors.white,
                                       icon: Icons.delete,
                                       label: 'Delete',
                                     ),
                                     SlidableAction(
-                                      onPressed: (e) {},
-                                      backgroundColor: Color(0xFF21B7CA),
+                                      onPressed: (e) {
+
+                                         Platform.isIOS
+                        ? CupertinoScaffold.showCupertinoModalBottomSheet(
+                            context: context,
+                            builder: (context) =>  EditToDo(idToEdit: state.model.todos[index].id,),
+                          )
+                        : showMaterialModalBottomSheet(
+                            context: context,
+                            builder: (context) => SingleChildScrollView(
+                              controller: ModalScrollController.of(context),
+                              child:  EditToDo(idToEdit: state.model.todos[index].id,),
+                            ),
+                          );
+                                        
+
+                                      },
+                                      backgroundColor: const Color(0xFF21B7CA),
                                       foregroundColor: Colors.white,
                                       icon: Icons.edit,
                                       label: 'Edit',

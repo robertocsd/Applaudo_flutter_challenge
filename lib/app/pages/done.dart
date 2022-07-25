@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:applaudo_tech_challenge_flutter/app/bloc/bloc.dart'
     as general_bloc;
@@ -40,16 +39,20 @@ class DonePage extends StatelessWidget {
         builder: (context, state) {
           return Expanded(
             child: ListView.builder(
-              itemCount: state.model.todos!.length,
+              itemCount: state.model.todos.length,
               itemBuilder: (BuildContext context, int index) {
-                return state.model.todos![index].type == true
+                return state.model.todos[index].type == true
                     ? Slidable(
                         child: CheckboxListTile(
-                          title: Text(state.model.todos![index].title),
-                          onChanged: (value) {
-                            print(value);
+                          title: Text(state.model.todos[index].title),
+                        onChanged: (value) {
+
+
+                          
+
+
                           },
-                          value: state.model.todos![index].type,
+                          value: state.model.todos[index].type,
                         ),
                         key: const ValueKey(0),
                         startActionPane: ActionPane(
@@ -60,7 +63,7 @@ class DonePage extends StatelessWidget {
                               onPressed: (e) {
                                 print('siu');
                               },
-                              backgroundColor: Color(0xFFFE4A49),
+                              backgroundColor: const Color(0xFFFE4A49),
                               foregroundColor: Colors.white,
                               icon: Icons.delete,
                               label: 'Delete',
@@ -69,7 +72,7 @@ class DonePage extends StatelessWidget {
                               onPressed: (e) {
                                 print('siu');
                               },
-                              backgroundColor: Color(0xFF21B7CA),
+                              backgroundColor: const Color(0xFF21B7CA),
                               foregroundColor: Colors.white,
                               icon: Icons.edit,
                               label: 'Edit',

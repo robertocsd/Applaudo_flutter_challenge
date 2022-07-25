@@ -2,6 +2,8 @@
 //
 //     final ToDoModel = ToDoModelFromMap(jsonString);
 
+// ignore_for_file: prefer_if_null_operators, unnecessary_null_comparison
+
 import 'dart:convert';
 
 class ToDoModel {
@@ -12,7 +14,7 @@ class ToDoModel {
   });
 
   final int id;
-  final String title;
+  String title;
   final bool type;
 
   factory ToDoModel.fromJson(String str) => ToDoModel.fromMap(json.decode(str));

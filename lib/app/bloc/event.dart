@@ -28,3 +28,9 @@ class DeletingAToDoEvent extends ToDoEvent {
 
   const DeletingAToDoEvent(this.id);
 }
+
+class EditAToDoEvent extends ToDoEvent {
+  final int id;
+  final String title;
+  const EditAToDoEvent(this.id, this.title);
+}
