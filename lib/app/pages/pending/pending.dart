@@ -61,17 +61,20 @@ class PendingPage extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CupertinoButton(
-                  child: Text(
-                    'Mask all as completed',
-                    style: TextStyle(fontSize: blockSizeVertical * 1.7),
-                  ),
-                  onPressed: () {
-                    
-                    context
-                        .read<general_bloc.ToDoBloc>()
-                        .add(const general_bloc.MarkAllCompletedEvent());
-                  }),
+              BlocBuilder<general_bloc.ToDoBloc, general_bloc.ToDoState>(
+                builder: (context, state) {
+                  return CupertinoButton(
+                      child: Text(
+                        'Mask all as completed',
+                        style: TextStyle(fontSize: blockSizeVertical * 1.7),
+                      ),
+                      onPressed: state.model.pending == 0 ? null : () {
+                        context
+                            .read<general_bloc.ToDoBloc>()
+                            .add(const general_bloc.MarkAllCompletedEvent());
+                      });
+                },
+              ),
               CupertinoButton(
                   child: Text(
                     'Add new todo',
@@ -101,7 +104,6 @@ class PendingPage extends StatelessWidget {
                     children: [
                       SizedBox(height: blockSizeVertical * 18),
                       SvgPicture.asset('assets/empty.svg',
-                      
                           color: Colors.orange, height: blockSizeVertical * 20),
                       const Text('This is empty... too empty...',
                           style: TextStyle(fontWeight: FontWeight.bold))
