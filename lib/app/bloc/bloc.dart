@@ -84,7 +84,7 @@ todos.add(ToDoModel(
     todos[todos.indexWhere((element) => element.id == todo.id)] = todo;
     emit(RefreshState(state.model));
     emit(ConvertToCompletedState(
-        state.model.copyWith(todos: todos, pageSelected: 0)));
+        state.model.copyWith(todos: todos)));
         add(const CheckingEmptyEvent());
   }
 
